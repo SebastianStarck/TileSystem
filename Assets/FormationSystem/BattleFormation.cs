@@ -5,7 +5,6 @@ using FormationSystem;
 using Generic;
 using UnityEngine;
 
-[Serializable]
 public class BattleFormation
 {
     private readonly string[,] _formation;

@@ -1,24 +1,27 @@
 namespace FormationSystem
 {
-    /// <summary> Exact position of unit in a formation </summary>
+    /// <summary> 
+    /// Exact position of unit in a formation.
+    /// </summary>
+    /// The enum members must be equal to FormationRow * FormationColumn
     public enum FormationPosition
     {
         BackLeft,
-        BackLeftMiddle,
+        // BackLeftMiddle,
         BackMiddle,
-        BackRightMiddle,
+        // BackRightMiddle,
         BackRight,
 
         CenterLeft,
-        CenterLeftMiddle,
+        // CenterLeftMiddle,
         CenterMiddle,
-        CenterRightMiddle,
+        // CenterRightMiddle,
         CenterRight,
 
         FrontLeft,
-        FrontLeftMiddle,
+        // FrontLeftMiddle,
         FrontMiddle,
-        FrontRightMiddle,
+        // FrontRightMiddle,
         FrontRight
     }
 
@@ -34,9 +37,9 @@ namespace FormationSystem
     public enum FormationColumn
     {
         Left,
-        LeftMiddle,
+        // LeftMiddle,
         Middle,
-        RightMiddle,
+        // RightMiddle,
         Right,
     }
 }
