@@ -26,9 +26,12 @@ namespace BattleSystem.State
         internal virtual void OnTileMouseEnter(Tile tile)
         {
             Manager.HoveredTile = tile;
+            tile.Highlight(GetTileHighlightColor());
         }
 
         internal virtual void OnTileMouseRightClick(Tile tile) {}
         internal virtual void OnTileMouseLeftClick(Tile tile) {}
+
+        protected virtual TileHighlightColor GetTileHighlightColor() => TileHighlightColor.None;
     }
 }

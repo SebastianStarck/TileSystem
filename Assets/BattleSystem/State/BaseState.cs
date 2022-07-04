@@ -12,13 +12,7 @@ namespace BattleSystem.State
         internal override void OnStateEnter()
         {
             Manager.EmitUIEvent(UIEventType.Clear);
-            Manager.HoveredTile.Highlight(GetHighlightColor());
-        }
-
-        internal override void OnTileMouseEnter(Tile tile)
-        {
-            base.OnTileMouseEnter(tile);
-            tile.Highlight(GetHighlightColor());
+            Manager.HoveredTile.Highlight(GetTileHighlightColor());
         }
 
         internal override void OnUIEvent(UIEventType ev)
@@ -31,6 +25,6 @@ namespace BattleSystem.State
             }
         }
 
-        private TileHighlightColor GetHighlightColor() => Manager.HoveredTile.IsPlaceable ? TileHighlightColor.Green : TileHighlightColor.Blue;
+        protected override TileHighlightColor GetTileHighlightColor() => Manager.HoveredTile.IsPlaceable ? TileHighlightColor.Green : TileHighlightColor.Blue;
     }
 }

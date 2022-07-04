@@ -8,12 +8,6 @@ namespace BattleSystem.State
     {
         public AddUnitState(BattleManager manager) : base(manager) {}
 
-        internal override void OnTileMouseEnter(Tile tile)
-        {
-            base.OnTileMouseEnter(tile);
-            tile.Highlight(tile.IsPlaceable ? TileHighlightColor.Blue : TileHighlightColor.Red);
-        }
-
         internal override void OnTileMouseRightClick(Tile tile)
         {
             if (!tile.IsPlaceable) return;
@@ -33,5 +27,7 @@ namespace BattleSystem.State
                     break;
             }
         }
+
+        protected override TileHighlightColor GetTileHighlightColor() => Manager.HoveredTile.IsPlaceable ? TileHighlightColor.Blue : TileHighlightColor.Red;
     }
 }

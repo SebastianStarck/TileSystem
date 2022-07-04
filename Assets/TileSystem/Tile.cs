@@ -9,7 +9,8 @@ namespace TileSystem
     {
         Red,
         Green,
-        Blue
+        Blue,
+        None
     }
 
     public class Tile : MonoBehaviour
@@ -87,6 +88,9 @@ namespace TileSystem
                 case TileHighlightColor.Blue:
                     _highlightRenderer.material = blueMat;
                     break;
+                default:
+                case TileHighlightColor.None:
+                    return;
             }
 
             _highlight.SetActive(true);
