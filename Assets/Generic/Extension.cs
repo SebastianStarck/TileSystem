@@ -10,9 +10,18 @@ namespace Generic
         public static bool IsEven(this int number) => number % 2 == 0;
         public static bool IsOdd(this int number) => number % 2 != 0;
 
-        public static void Each<T>(this IEnumerable<T> enumerable, Action<T> callback)
+        public static T[] Each<T>(this T[] enumerable, Action<T> callback)
         {
             foreach (var item in enumerable) callback(item);
+
+            return enumerable;
+        }
+
+        public static List<T> Each<T>(this List<T> enumerable, Action<T> callback)
+        {
+            foreach (var item in enumerable) callback(item);
+
+            return enumerable;
         }
 
         public static string JoinToString<T>(this IEnumerable<T> enumerable) => string.Join(",", enumerable);

@@ -3,8 +3,8 @@ using UnityEngine.EventSystems;
 
 namespace UISystem
 {
-    // public interface IUIEventEmitter
-    // {
-    //     public event UIEvent UIEvent;
-    // }
+    public interface IUIEventEmitter
+    {
+        public event UIEvent UIEvent;
+    }
 }

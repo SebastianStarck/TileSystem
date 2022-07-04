@@ -2,6 +2,7 @@ using System;
 using FormationSystem;
 using UnityEngine;
 using Generic;
+using UnitSystem;
 
 namespace TileSystem
 {
@@ -33,12 +34,12 @@ namespace TileSystem
 
         [SerializeField] private float unitVerticalOffset = .6f;
         public bool IsPlaceable => _unit == null;
-        private GameObject _unit;
+        private Unit _unit;
 
         private FormationManager _formationManager;
         public FormationManager FormationManager => _formationManager;
 
-        public GameObject Unit => _unit;
+        public Unit Unit => _unit;
 
         private void Awake()
         {
@@ -46,25 +47,36 @@ namespace TileSystem
             _formationManager = FindObjectOfType<FormationManager>();
             _highlight = trans.GetChildByName("highlight");
             _position = FormationPositionHelper.FromVector3(trans.position);
-            // GetComponentInChildren<TextMesh>().text = $"{trans.position.x}:{trans.position.z}";
             if (_highlight != null) _highlightRenderer = _highlight.GetComponent<Renderer>();
+        }
+
+        public bool SetUnit(Unit unit)
+        {
+            if (_unit != null || unit == null) return false;
+
+            _unit.SetTile(this);
+            unit.transform.position = transform.position + new Vector3(0, unitVerticalOffset);
+            unit.transform.rotation = transform.rotation;
+
+            return true;
         }
 
         public bool SetUnit(GameObject unit)
         {
             if (_unit != null || unit == null) return false;
 
-            _unit = unit;
+            _unit = unit.GetComponent<Unit>();
+            _unit.SetTile(this);
             unit.transform.position = transform.position + new Vector3(0, unitVerticalOffset);
             unit.transform.rotation = transform.rotation;
-
 
             return true;
         }
 
-        public GameObject TakeUnit()
+        public Unit TakeUnit()
         {
             var unit = _unit;
+            unit.ClearTile();
             _unit = null;
 
             return unit;

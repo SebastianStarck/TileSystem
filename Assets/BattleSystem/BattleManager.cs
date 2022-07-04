@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FormationSystem;
 using Generic;
@@ -7,15 +8,13 @@ using UISystem;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using BattleSystem.State;
+using UnitSystem;
 
 namespace BattleSystem
 {
     public class BattleManager : MonoUIEventable
     {
         [SerializeField] private float spaceBetweenBoards = 2f;
-        [SerializeField] private int range = 1;
-        [SerializeField] private int rowNegativeRange = 0;
-        [SerializeField] private bool showRange = true;
 
         internal GameObject UnitPrefab;
 
@@ -23,6 +22,7 @@ namespace BattleSystem
         private FormationManager _formationB;
 
         internal Tile HoveredTile;
+        internal List<Tile> ActiveTiles = new List<Tile>();
 
         private BattleManagerState _state;
 
@@ -75,19 +75,22 @@ namespace BattleSystem
         private void OnTileMouseExit(Tile tile, FormationManager formation) => _state.OnTileMouseExit(tile);
         private void OnTileMouseEnter(Tile tile, FormationManager formation) => _state.OnTileMouseEnter(tile);
 
-        // TODO: Implement range highlight state
-        private void HighlightTileRange(Tile tile, FormationManager formation)
+        internal void ClearActiveTiles() => ActiveTiles.Each(tile => tile.DisableHighlight()).Clear();
+
+        internal void HighlightUnitRange(Unit unit)
         {
-            tile.Highlight(TileHighlightColor.Green);
-            var otherFormation = GetOtherFormation(formation);
+            var otherFormation = GetOtherFormation(unit.Tile.FormationManager);
+            var positions = unit.Position
+                .GetOpposite()
+                .GetPositionsInRange(unit.AttackRange);
+
             var tilesToHighlight = otherFormation
-                .GetTiles(tile.Position.GetOpposite().GetPositionsInRange(range, rowModifier: rowNegativeRange))
+                .GetTiles(positions)
                 .ToList();
 
-            foreach (var otherTile in tilesToHighlight)
-            {
-                otherTile.Highlight(TileHighlightColor.Blue);
-            }
+            foreach (var otherTile in tilesToHighlight) otherTile.Highlight(otherTile.Unit == null ? TileHighlightColor.Blue : TileHighlightColor.Red);
+
+            ActiveTiles = tilesToHighlight;
         }
 
         private void HighlightTile(Tile tile, FormationManager formation)

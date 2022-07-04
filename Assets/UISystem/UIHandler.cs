@@ -45,7 +45,10 @@ namespace UISystem
         {
             switch (uiEvent)
             {
-                case UIEventType.CancelAddUnit: OnCancelUnitClick(); break;
+                case UIEventType.Clear:
+                case UIEventType.CancelAddUnit:
+                    OnCancelUnitClick();
+                    break;
             }
         }
     }

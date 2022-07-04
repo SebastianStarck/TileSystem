@@ -96,7 +96,6 @@ namespace FormationSystem
         public bool AssignNewUnit(GameObject unitPrefab, FormationPosition position)
         {
             var instancedUnit = Instantiate(unitPrefab, _unitsWrapper.transform);
-            Debug.Log(instancedUnit);
             GetTile(position).SetUnit(instancedUnit);
 
             return instancedUnit != null;

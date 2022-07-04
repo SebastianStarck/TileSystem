@@ -9,5 +9,4 @@ namespace UISystem
     }
 
     public delegate void UIEvent(UIEventType ev);
-    // public delegate void TileClickEvent(Tile tile, FormationManager formation);
 }
