@@ -551,7 +551,8 @@ MonoBehaviour:
   redMat: {fileID: 2100000, guid: d9fd75e275ae2eb4cb9ec7defb513421, type: 2}
   greenMat: {fileID: 2100000, guid: 004cf9cb4d4e42f49bbb76be2b8d0c46, type: 2}
   blueMat: {fileID: 2100000, guid: 6dd19f099d312f840b78ac0ca60dd7f8, type: 2}
-  unitVerticalOffset: 0.6
+  yellowMat: {fileID: 2100000, guid: 9c349845ed9d14f4eb961f29f42fd78c, type: 2}
+  unitVerticalOffset: 0.25
 --- !u!65 &3265694790742421263
 BoxCollider:
   m_ObjectHideFlags: 0

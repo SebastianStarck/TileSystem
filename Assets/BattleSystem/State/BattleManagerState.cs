@@ -15,6 +15,7 @@ namespace BattleSystem.State
         internal virtual void OnStateEnter() {}
         internal virtual void OnStateExit() {}
 
+        internal virtual void OnUpdate() {}
         internal virtual void OnUIEvent(UIEventType ev) {}
 
         internal virtual void OnTileMouseExit(Tile tile)
@@ -26,6 +27,9 @@ namespace BattleSystem.State
         internal virtual void OnTileMouseEnter(Tile tile)
         {
             Manager.HoveredTile = tile;
+
+            if (tile == null) return;
+
             tile.Highlight(GetTileHighlightColor());
         }
 

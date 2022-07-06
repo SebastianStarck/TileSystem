@@ -15,7 +15,7 @@ namespace UISystem
         /// </summary>
         public event UIEvent UIEvent;
 
-        internal void EmitUIEvent(UIEventType eventType) => UIEvent.Invoke(eventType);
+        internal void EmitUIEvent(UIEventType eventType) => UIEvent?.Invoke(eventType);
 
         /// <summary>
         /// Callback method to be called on UI message dispatch

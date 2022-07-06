@@ -15,7 +15,8 @@ namespace BattleSystem.State
             var didSetUnit = tile.FormationManager.AssignNewUnit(Manager.UnitPrefab, tile.Position);
             if (!didSetUnit) return;
 
-            Manager.SetState(new BaseState(Manager));
+            // Keep the add unit state until disabled by ui
+            // Manager.State = new BaseState(Manager);
         }
 
         internal override void OnUIEvent(UIEventType ev)
@@ -23,7 +24,7 @@ namespace BattleSystem.State
             switch (ev)
             {
                 case UIEventType.CancelAddUnit:
-                    Manager.SetState(new BaseState(Manager));
+                    Manager.State = new BaseState(Manager);
                     break;
             }
         }

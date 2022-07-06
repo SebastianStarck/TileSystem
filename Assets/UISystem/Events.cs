@@ -5,7 +5,9 @@ namespace UISystem
         AddUnit,
         LeftClick,
         CancelAddUnit,
-        Clear
+        Clear,
+        Resolve,
+        Restore
     }
 
     public delegate void UIEvent(UIEventType ev);

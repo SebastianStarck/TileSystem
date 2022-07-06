@@ -20,7 +20,19 @@ namespace BattleSystem.State
             switch (ev)
             {
                 case UIEventType.AddUnit:
-                    Manager.SetState(new AddUnitState(Manager));
+                    Manager.State = new AddUnitState(Manager);
+                    break;
+
+                case UIEventType.Resolve:
+                    Manager.State = new ResolveState(Manager);
+                    break;
+
+                case UIEventType.Clear:
+                    Manager.ClearBoards();
+                    break;
+
+                case UIEventType.Restore:
+                    Manager.RestoreUnits();
                     break;
             }
         }
@@ -28,7 +40,7 @@ namespace BattleSystem.State
         internal override void OnTileMouseEnter(Tile tile)
         {
             base.OnTileMouseEnter(tile);
-            if (tile.Unit == null) return;
+            if (tile == null || tile.Unit == null || !tile.Unit.IsAlive) return;
             Manager.HighlightUnitRange(tile.Unit);
         }
 

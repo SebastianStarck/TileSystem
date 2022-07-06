@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Generic;
 using TileSystem;
+using UnitSystem;
 using UnityEngine;
 
 namespace FormationSystem
@@ -12,7 +13,7 @@ namespace FormationSystem
         private Material _tileMaterial;
 
         [Header("Unit")]
-        [SerializeField] private float verticalOffset = .6f;
+        [SerializeField] private float verticalOffset = .25f;
 
         private GameObject _unitsWrapper;
         private readonly BattleFormation _battleFormation = new BattleFormation();
@@ -82,6 +83,8 @@ namespace FormationSystem
                 });
         }
 
+        public Tile GetTile(FormationPosition position) => _tilesWrapper.transform.GetComponentInChild<Tile>(position.ToInt());
+
         private void MoveUnitFromTile(Vector3 position, Tile tile)
         {
             var unit = tile.TakeUnit();
@@ -101,9 +104,9 @@ namespace FormationSystem
             return instancedUnit != null;
         }
 
-        public Tile GetTile(FormationPosition position)
-        {
-            return _tilesWrapper.transform.GetComponentInChild<Tile>(position.ToInt());
-        }
+        public Unit[] GetUnits() => _unitsWrapper.GetComponentsInChildren<Unit>();
+
+        internal void Clear() => GetUnits().Each(unit => unit.Destroy());
+        internal void RestoreUnits() => GetUnits().Each(unit => unit.ResetSelf());
     }
 }

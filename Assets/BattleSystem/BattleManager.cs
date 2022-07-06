@@ -24,7 +24,21 @@ namespace BattleSystem
         internal Tile HoveredTile;
         internal List<Tile> ActiveTiles = new List<Tile>();
 
+        [SerializeField] internal string state;
         private BattleManagerState _state;
+        internal BattleManagerState State
+        {
+            get => _state;
+            set
+            {
+                _state?.OnStateExit();
+                _state = value;
+                _state.OnStateEnter();
+                state = value.ToString();
+            }
+        }
+
+        internal Combat.Combat _currentCombat;
 
         #region Setup
         public void Awake()
@@ -32,9 +46,9 @@ namespace BattleSystem
             InstantiateBoards();
             RegisterTiles();
 
-            UnitPrefab = AssetLoader<GameObject>.LoadAsset("Unit.prefab", "UnitSystem");
+            UnitPrefab = AssetLoader<GameObject>.LoadAsset("Unit Variant.prefab", "UnitSystem");
 
-            _state = new BaseState(this);
+            State = new BaseState(this);
         }
 
         private void InstantiateBoards()
@@ -63,18 +77,16 @@ namespace BattleSystem
         }
         #endregion
 
-        internal void SetState(BattleManagerState nextState)
-        {
-            _state.OnStateExit();
-            _state = nextState;
-            nextState.OnStateEnter();
-        }
+        public void Update() => _state.OnUpdate();
 
+        # region Events
         public override void OnUIEvent(UIEventType ev) => _state.OnUIEvent(ev);
         private void OnTileClick(Tile tile, FormationManager formation) => _state.OnTileMouseRightClick(tile);
         private void OnTileMouseExit(Tile tile, FormationManager formation) => _state.OnTileMouseExit(tile);
         private void OnTileMouseEnter(Tile tile, FormationManager formation) => _state.OnTileMouseEnter(tile);
+        #endregion
 
+        #region Tiles
         internal void ClearActiveTiles() => ActiveTiles.Each(tile => tile.DisableHighlight()).Clear();
 
         internal void HighlightUnitRange(Unit unit)
@@ -88,23 +100,36 @@ namespace BattleSystem
                 .GetTiles(positions)
                 .ToList();
 
-            foreach (var otherTile in tilesToHighlight) otherTile.Highlight(otherTile.Unit == null ? TileHighlightColor.Blue : TileHighlightColor.Red);
+            foreach (var otherTile in tilesToHighlight) otherTile.Highlight(otherTile.Unit == null || !otherTile.Unit.IsAlive ? TileHighlightColor.Blue : TileHighlightColor.Red);
 
             ActiveTiles = tilesToHighlight;
         }
+        #endregion
 
-        private void HighlightTile(Tile tile, FormationManager formation)
+        #region Formation
+        internal void StartCombat() => _currentCombat = new Combat.Combat(_formationA.GetUnits(), _formationB.GetUnits(), this).Start();
+
+        private FormationManager GetOtherFormation(Object formation) => formation == _formationA ? _formationB : _formationA;
+        #endregion
+
+        internal void RestoreUnits()
         {
-            var oppositePosition = tile.Position.GetOpposite();
-            var otherFormation = GetOtherFormation(formation);
-            var otherTile = otherFormation.transform.GetComponentInChild<Tile>(oppositePosition.ToInt());
-            otherTile.Highlight(TileHighlightColor.Red);
-            tile.Highlight(TileHighlightColor.Green);
+            _formationA.RestoreUnits();
+            _formationB.RestoreUnits();
         }
 
-        private FormationManager GetOtherFormation(Object formation)
+        internal void ClearBoards()
         {
-            return formation == _formationA ? _formationB : _formationA;
+            _formationA.Clear();
+            _formationB.Clear();
+        }
+        public void HighlightOppositeTile(Tile tile, FormationPosition position, TileHighlightColor yellow)
+        {
+            var oppositeSide = GetOtherFormation(tile.FormationManager);
+
+            var oppositeTile = oppositeSide.GetTile(position);
+            oppositeTile.Highlight(yellow);
+            ActiveTiles.Add(oppositeTile);
         }
     }
 }

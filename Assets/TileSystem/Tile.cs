@@ -11,13 +11,13 @@ namespace TileSystem
         Red,
         Green,
         Blue,
-        None
+        None,
+        Yellow
     }
 
     public class Tile : MonoBehaviour
     {
         public event TileClickEvent TileClickEvent;
-
         public event TileMouseEnter TileMouseEnter;
         public event TileMouseExit TileMouseExit;
 
@@ -25,6 +25,7 @@ namespace TileSystem
         [SerializeField] private Material redMat;
         [SerializeField] private Material greenMat;
         [SerializeField] private Material blueMat;
+        [SerializeField] private Material yellowMat;
 
         private GameObject _highlight;
         private Renderer _highlightRenderer;
@@ -32,7 +33,7 @@ namespace TileSystem
         private FormationPosition _position;
         public FormationPosition Position => _position;
 
-        [SerializeField] private float unitVerticalOffset = .6f;
+        [SerializeField] private float unitVerticalOffset = .25f;
         public bool IsPlaceable => _unit == null;
         private Unit _unit;
 
@@ -69,6 +70,7 @@ namespace TileSystem
             _unit.SetTile(this);
             unit.transform.position = transform.position + new Vector3(0, unitVerticalOffset);
             unit.transform.rotation = transform.rotation;
+            unit.name = $"Unit ({_position.ToVector2()}) - {_formationManager.name}";
 
             return true;
         }
@@ -94,12 +96,19 @@ namespace TileSystem
                 case TileHighlightColor.Red:
                     _highlightRenderer.material = redMat;
                     break;
+
                 case TileHighlightColor.Green:
                     _highlightRenderer.material = greenMat;
                     break;
+
                 case TileHighlightColor.Blue:
                     _highlightRenderer.material = blueMat;
                     break;
+
+                case TileHighlightColor.Yellow:
+                    _highlightRenderer.material = yellowMat;
+                    break;
+
                 default:
                 case TileHighlightColor.None:
                     return;

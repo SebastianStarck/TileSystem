@@ -34,6 +34,10 @@ namespace UISystem
             _notificator.Notify(UIEventType.CancelAddUnit);
         }
 
+        public void OnResolveClick() => _notificator.Notify(UIEventType.Resolve);
+        public void OnClearClick() => _notificator.Notify(UIEventType.Clear);
+        public void onRestoreClick() => _notificator.Notify(UIEventType.Restore);
+
         public void OnAddUnitClick()
         {
             isAddingUnit = true;
