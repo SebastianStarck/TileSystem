@@ -46,7 +46,7 @@ namespace BattleSystem
             InstantiateBoards();
             RegisterTiles();
 
-            UnitPrefab = AssetLoader<GameObject>.LoadAsset("Unit Variant.prefab", "UnitSystem");
+            UnitPrefab = AssetLoader.LoadAsset<GameObject>("Unit Variant.prefab", "UnitSystem");
 
             State = new BaseState(this);
         }

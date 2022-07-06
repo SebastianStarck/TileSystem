@@ -46,7 +46,7 @@ namespace FormationSystem
 
         private void InstantiateGrid()
         {
-            _tilePrefab = AssetLoader<GameObject>.LoadAsset("Tile.prefab", "TileSystem");
+            _tilePrefab = AssetLoader.LoadAsset<GameObject>("Tile.prefab", "TileSystem");
 
             _tilesWrapper = new GameObject("Tiles");
             _tilesWrapper.transform.SetParent(transform);
