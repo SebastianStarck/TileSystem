@@ -51,6 +51,13 @@ namespace TileSystem
             if (_highlight != null) _highlightRenderer = _highlight.GetComponent<Renderer>();
         }
 
+        public void SetText()
+        {
+            var textMesh = GetComponentInChildren<TextMesh>();
+            textMesh.text = _position.ToString();
+            textMesh.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+        }
+
         public bool SetUnit(Unit unit)
         {
             if (_unit != null || unit == null) return false;

@@ -36,6 +36,12 @@ namespace Generic
         }
 
         public static void FaceCamera(this GameObject obj) => obj.transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
-        public static void FaceCamera(this Transform transform) => transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
+        public static Quaternion FaceCamera(this Transform transform, float xPosition = 0f, float zPosition = 0f)
+        {
+            var newRotation = Quaternion.LookRotation(new Vector3(xPosition, Camera.main!.transform.forward.y, zPosition));
+            transform.rotation = newRotation;
+
+            return newRotation;
+        }
     }
 }

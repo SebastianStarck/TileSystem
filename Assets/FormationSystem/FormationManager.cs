@@ -71,8 +71,10 @@ namespace FormationSystem
         /// </summary>
         /// <param name="positions">Positions to be used to match tiles</param>
         /// <returns></returns>
-        public IEnumerable<Tile> GetTiles(IEnumerable<FormationPosition> positions)
+        public Tile[] GetTiles(IEnumerable<FormationPosition> positions = null)
         {
+            positions ??= Enum<FormationPosition>.Values;
+
             return positions
                 .Where(position => position >= Enum<FormationPosition>.Start && position <= Enum<FormationPosition>.End)
                 .Select(position =>
@@ -80,7 +82,7 @@ namespace FormationSystem
                     var (row, column) = position.ToVector2();
 
                     return tiles[row, column];
-                });
+                }).ToArray();
         }
 
         public Tile GetTile(FormationPosition position) => _tilesWrapper.transform.GetComponentInChild<Tile>(position.ToInt());

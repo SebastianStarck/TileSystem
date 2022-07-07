@@ -73,6 +73,8 @@ namespace BattleSystem
                 tile.TileClickEvent += OnTileClick;
                 tile.TileMouseEnter += OnTileMouseEnter;
                 tile.TileMouseExit += OnTileMouseExit;
+
+                tile.SetText();
             }
         }
         #endregion

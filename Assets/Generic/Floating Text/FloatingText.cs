@@ -26,7 +26,7 @@ public class FloatingText : MonoBehaviour
     public void Awake()
     {
         _textMesh = GetComponent<TextMesh>();
-        transform.FaceCamera();
+        transform.FaceCamera(-90f);
     }
 
     public void Update()
