@@ -13,6 +13,7 @@ namespace BattleSystem.State
             if (!tile.IsPlaceable) return;
 
             var didSetUnit = tile.FormationManager.AssignNewUnit(Manager.UnitPrefab, tile.Position);
+            Manager.EmitUIEvent(UIEventType.Click);
             if (!didSetUnit) return;
 
             // Keep the add unit state until disabled by ui

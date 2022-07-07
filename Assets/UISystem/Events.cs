@@ -7,7 +7,8 @@ namespace UISystem
         CancelAddUnit,
         Clear,
         Resolve,
-        Restore
+        Restore,
+        Click
     }
 
     public delegate void UIEvent(UIEventType ev);

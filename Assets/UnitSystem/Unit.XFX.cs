@@ -9,48 +9,47 @@ namespace UnitSystem
     {
         private Animator _animator;
         private AudioSource _audioSource;
-        private AudioClip[] _swordEffects;
-        private AnimationClips<GenericAnimation> _animationClips;
 
-        [SerializeField] private bool isAttacking;
+        private AudioClip[] _swordEffects;
+        private AudioClip _death;
+
+
+        [SerializeField] private bool isExecutingAttackAnimation;
 
         private void VFXAwake()
         {
             _animator = GetComponentInChildren<Animator>();
             _audioSource = GetComponent<AudioSource>();
 
-            _animationClips = new AnimationClips<GenericAnimation>(_animator.runtimeAnimatorController);
+            _death = AssetLoader.LoadAsset<AudioClip>("death.wav", "SFX");
             _swordEffects = new[]
             {
                 AssetLoader.LoadAsset<AudioClip>("sword_a.wav", "SFX"),
                 AssetLoader.LoadAsset<AudioClip>("sword_b.wav", "SFX")
             };
-
-            // _animator.
         }
 
         public void PlayAttackAnimation()
         {
-            isAttacking = true;
+            isExecutingAttackAnimation = true;
             _animator.Play(GenericAnimation.Attack.ToString());
             StartCoroutine(WaitForFrames(12, () => _audioSource.PlayOneShot(_swordEffects.Random())));
+            StartCoroutine(WaitForFrames(15, () => UnitEvent.Invoke(this, UnitEventType.AttackFinish)));
         }
+
+        private void XFXOnDeath() => _audioSource.PlayOneShot(_death);
 
         private IEnumerator WaitForFrames(int framesToWait, Action callback)
         {
-            for (var i = 0; i <= framesToWait; i++)
-            {
-                yield return null;
-            }
+            for (var i = 0; i <= framesToWait; i++) yield return null;
 
             callback();
         }
 
         public void OnAttackAnimationFinish()
         {
-            isAttacking = false;
+            isExecutingAttackAnimation = false;
             _animator.Play(GenericAnimation.Idle.ToString());
-            UnitEvent.Invoke(this, UnitEventType.AttackFinish);
         }
     }
 }

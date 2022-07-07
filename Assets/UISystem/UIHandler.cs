@@ -11,11 +11,16 @@ namespace UISystem
 
         private UINotificator _notificator;
         private Button _addUnitButton;
+        private AudioSource _audioSource;
+
+        private AudioClip _mouseClick;
 
         public void Awake()
         {
             _addUnitButton = transform.GetComponentInChildren<Button>();
             _notificator = GetComponent<UINotificator>();
+            _audioSource = GetComponent<AudioSource>();
+            _mouseClick = AssetLoader.LoadAsset<AudioClip>("click.wav", "SFX");
         }
 
         public void Update()
@@ -34,12 +39,27 @@ namespace UISystem
             _notificator.Notify(UIEventType.CancelAddUnit);
         }
 
-        public void OnResolveClick() => _notificator.Notify(UIEventType.Resolve);
-        public void OnClearClick() => _notificator.Notify(UIEventType.Clear);
-        public void onRestoreClick() => _notificator.Notify(UIEventType.Restore);
+        public void OnResolveClick()
+        {
+            PlayClickEffect();
+            _notificator.Notify(UIEventType.Resolve);
+        }
+
+        public void OnClearClick()
+        {
+            PlayClickEffect();
+            _notificator.Notify(UIEventType.Clear);
+        }
+
+        public void onRestoreClick()
+        {
+            PlayClickEffect();
+            _notificator.Notify(UIEventType.Restore);
+        }
 
         public void OnAddUnitClick()
         {
+            PlayClickEffect();
             isAddingUnit = true;
             _addUnitButton.interactable = false;
             _notificator.Notify(UIEventType.AddUnit);
@@ -49,11 +69,17 @@ namespace UISystem
         {
             switch (uiEvent)
             {
+                case UIEventType.Click:
+                    PlayClickEffect();
+                    break;
+
                 case UIEventType.Clear:
                 case UIEventType.CancelAddUnit:
                     OnCancelUnitClick();
                     break;
             }
         }
+
+        private void PlayClickEffect() => _audioSource.PlayOneShot(_mouseClick);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Generic
 {
@@ -33,5 +34,8 @@ namespace Generic
 
             return child == null ? default : child.GetComponent<T>();
         }
+
+        public static void FaceCamera(this GameObject obj) => obj.transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
+        public static void FaceCamera(this Transform transform) => transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
     }
 }

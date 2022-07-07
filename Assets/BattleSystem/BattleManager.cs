@@ -34,7 +34,7 @@ namespace BattleSystem
                 _state?.OnStateExit();
                 _state = value;
                 _state.OnStateEnter();
-                state = value.ToString();
+                state = value.GetType().Name;
             }
         }
 
@@ -94,7 +94,7 @@ namespace BattleSystem
             var otherFormation = GetOtherFormation(unit.Tile.FormationManager);
             var positions = unit.Position
                 .GetOpposite()
-                .GetPositionsInRange(unit.AttackRange);
+                .GetPositionsInRange(unit.attackRange);
 
             var tilesToHighlight = otherFormation
                 .GetTiles(positions)

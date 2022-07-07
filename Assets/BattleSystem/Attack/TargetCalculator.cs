@@ -12,7 +12,7 @@ namespace BattleSystem.Attack
         public static Unit GetTarget(Unit unit, List<Unit> otherFormation)
         {
             var pivotPosition = unit.Position.GetOpposite();
-            var positions = pivotPosition.GetPositionsInRange(unit.AttackRange).ToArray();
+            var positions = pivotPosition.GetPositionsInRange(unit.attackRange).ToArray();
 
             // By default target the closets enemy
             var target = otherFormation.OrderBy(enemyUnit => Math.Abs(enemyUnit.Position - pivotPosition)).FirstOrDefault();
@@ -26,7 +26,10 @@ namespace BattleSystem.Attack
                     .FirstOrDefault();
             }
 
-            return target;
+            return target ? target : otherFormation
+                .OrderBy(enemyUnit => Math.Abs(enemyUnit.Position - pivotPosition)) // Make this a extension 
+                .FirstOrDefault();
+            ;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace BattleSystem.Combat
             while (!IsDone)
             {
                 ProgressCombat();
-                yield return new WaitForSeconds(.1f);
+                yield return new WaitForSeconds(.3f);
             }
         }
 

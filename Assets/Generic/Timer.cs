@@ -33,6 +33,6 @@ namespace Generic
             return CurrentProgress;
         }
 
-        private void Restart() => CurrentProgress -= _attackDelay;
+        private void Restart() => CurrentProgress = 0f;
     }
 }
