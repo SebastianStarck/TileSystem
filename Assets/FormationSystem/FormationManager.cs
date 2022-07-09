@@ -106,6 +106,8 @@ namespace FormationSystem
             return instancedUnit != null;
         }
 
+        public void WrapUnit(Unit unit) => unit.transform.SetParent(_unitsWrapper.transform);
+
         public Unit[] GetUnits() => _unitsWrapper.GetComponentsInChildren<Unit>();
 
         internal void Clear() => GetUnits().Each(unit => unit.Destroy());

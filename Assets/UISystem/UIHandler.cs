@@ -15,6 +15,9 @@ namespace UISystem
 
         private AudioClip _mouseClick;
 
+        private bool _canDrag = true;
+        public bool CanDrag => _canDrag;
+
         public void Awake()
         {
             _addUnitButton = transform.GetComponentInChildren<Button>();
@@ -37,21 +40,24 @@ namespace UISystem
             _addUnitButton.interactable = true;
             // TODO: Make this trigger a new state for BattleManager
             _notificator.Notify(UIEventType.CancelAddUnit);
+            _canDrag = true;
         }
 
         public void OnResolveClick()
         {
             PlayClickEffect();
             _notificator.Notify(UIEventType.Resolve);
+            _canDrag = false;
         }
 
         public void OnClearClick()
         {
             PlayClickEffect();
             _notificator.Notify(UIEventType.Clear);
+            _canDrag = true;
         }
 
-        public void onRestoreClick()
+        public void OnRestoreClick()
         {
             PlayClickEffect();
             _notificator.Notify(UIEventType.Restore);
@@ -63,6 +69,7 @@ namespace UISystem
             isAddingUnit = true;
             _addUnitButton.interactable = false;
             _notificator.Notify(UIEventType.AddUnit);
+            _canDrag = false;
         }
 
         public void TriggerEvent(UIEventType uiEvent)

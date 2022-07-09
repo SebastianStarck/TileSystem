@@ -27,7 +27,7 @@ namespace UnitSystem.Progress
             _currentProgress = ownTransform.GetComponentInChildren<TextMesh>();
         }
 
-        private void FaceCamera() => transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
+        public void FaceCamera() => transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
 
         internal void Enable()
         {

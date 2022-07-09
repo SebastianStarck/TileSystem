@@ -707,7 +707,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1760636038}
         m_TargetAssemblyTypeName: UISystem.UIHandler, Assembly-CSharp
-        m_MethodName: onRestoreClick
+        m_MethodName: OnRestoreClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

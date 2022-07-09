@@ -26,7 +26,7 @@ namespace UnitSystem
             _currentHealth = ownTransform.GetComponentInChildren<TextMesh>();
         }
 
-        private void FaceCamera() => transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
+        public void FaceCamera() => transform.rotation = Quaternion.LookRotation(new Vector3(-90f, Camera.main!.transform.forward.y));
 
         internal void SetHealthPercentage(float currentHealthPercentage)
         {
@@ -47,5 +47,6 @@ namespace UnitSystem
             _missingHealthTransform.localPosition = new Vector3(healthBasePosition - missingPercentage / 200, 0f);
             _missingHealthTransform.localScale = new Vector3(missingPercentage / 100, .1f, .11f);
         }
+        
     }
 }

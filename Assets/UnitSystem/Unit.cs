@@ -3,13 +3,14 @@ using BattleSystem.Attack;
 using FormationSystem;
 using Generic;
 using TileSystem;
+using UISystem;
 using UnitSystem.Progress;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace UnitSystem
 {
-    public partial class Unit : MonoBehaviour
+    public partial class Unit : MonoBehaviour, IDraggable
     {
         [SerializeField] private FormationPosition position;
         public FormationPosition Position => position;
@@ -53,10 +54,10 @@ namespace UnitSystem
 
         }
 
-        public void SetTile(Tile tile)
+        public void SetTile(Tile newTile)
         {
-            this.tile = tile;
-            position = tile.Position;
+            tile = newTile;
+            position = newTile.Position;
         }
 
         public void ClearTile() => tile = null;
@@ -91,6 +92,25 @@ namespace UnitSystem
         {
             Tile.TakeUnit();
             Destroy(gameObject);
+        }
+
+        public void UpdateUI()
+        {
+            _health.FaceCamera();
+            _progressBar.FaceCamera();
+        }
+
+        public void OnDragStop(GameObject otherGameObject)
+        {
+            var otherTile = otherGameObject.GetComponent<Tile>();
+
+            if (otherTile == null || !otherTile.IsPlaceable) return;
+
+            // TODO: Resolve whacky unit - tile API
+            Tile.TakeUnit();
+            SetTile(otherTile);
+            otherTile.SetUnit(this);
+            otherTile.FormationManager.WrapUnit(this);
         }
     }
 }

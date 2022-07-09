@@ -62,9 +62,10 @@ namespace TileSystem
         {
             if (_unit != null || unit == null) return false;
 
-            _unit.SetTile(this);
+            unit.SetTile(this);
             unit.transform.position = transform.position + new Vector3(0, unitVerticalOffset);
             unit.transform.rotation = transform.rotation;
+            unit.UpdateUI();
 
             return true;
         }
@@ -78,6 +79,7 @@ namespace TileSystem
             unit.transform.position = transform.position + new Vector3(0, unitVerticalOffset);
             unit.transform.rotation = transform.rotation;
             unit.name = $"Unit ({_position.ToVector2()}) - {_formationManager.name}";
+            _formationManager.WrapUnit(_unit);
 
             return true;
         }
@@ -85,6 +87,9 @@ namespace TileSystem
         public Unit TakeUnit()
         {
             var unit = _unit;
+
+            if (_unit == null) return null;
+
             unit.ClearTile();
             _unit = null;
 
