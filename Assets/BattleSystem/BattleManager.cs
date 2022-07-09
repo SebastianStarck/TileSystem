@@ -21,8 +21,8 @@ namespace BattleSystem
         private FormationManager _formationA;
         private FormationManager _formationB;
 
-        internal Tile HoveredTile;
-        internal List<Tile> ActiveTiles = new List<Tile>();
+        [SerializeField] internal Tile hoveredTile;
+        [SerializeField] internal List<Tile> activeTiles = new List<Tile>();
 
         [SerializeField] internal string state;
         private BattleManagerState _state;
@@ -89,7 +89,7 @@ namespace BattleSystem
         #endregion
 
         #region Tiles
-        internal void ClearActiveTiles() => ActiveTiles.Each(tile => tile.DisableHighlight()).Clear();
+        internal void ClearActiveTiles() => activeTiles.Each(tile => tile.DisableHighlight()).Clear();
 
         internal void HighlightUnitRange(Unit unit)
         {
@@ -104,7 +104,7 @@ namespace BattleSystem
 
             foreach (var otherTile in tilesToHighlight) otherTile.Highlight(otherTile.Unit == null || !otherTile.Unit.IsAlive ? TileHighlightColor.Blue : TileHighlightColor.Red);
 
-            ActiveTiles = tilesToHighlight;
+            activeTiles = tilesToHighlight;
         }
         #endregion
 
@@ -131,7 +131,7 @@ namespace BattleSystem
 
             var oppositeTile = oppositeSide.GetTile(position);
             oppositeTile.Highlight(yellow);
-            ActiveTiles.Add(oppositeTile);
+            activeTiles.Add(oppositeTile);
         }
     }
 }

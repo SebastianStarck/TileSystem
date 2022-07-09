@@ -8,7 +8,9 @@ namespace UISystem
         Clear,
         Resolve,
         Restore,
-        Click
+        Click,
+        DragStart,
+        DragEnd
     }
 
     public delegate void UIEvent(UIEventType ev);

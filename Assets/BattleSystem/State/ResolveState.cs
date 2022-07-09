@@ -24,6 +24,6 @@ namespace BattleSystem.State
             base.OnTileMouseExit(tile);
             Manager.ClearActiveTiles();
         }
-        protected override TileHighlightColor GetTileHighlightColor() => Manager.HoveredTile.IsPlaceable ? TileHighlightColor.Green : TileHighlightColor.Blue;
+        protected override TileHighlightColor GetTileHighlightColor() => Manager.hoveredTile.IsPlaceable ? TileHighlightColor.Green : TileHighlightColor.Blue;
     }
 }

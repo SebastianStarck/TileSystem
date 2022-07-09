@@ -30,6 +30,6 @@ namespace BattleSystem.State
             }
         }
 
-        protected override TileHighlightColor GetTileHighlightColor() => Manager.HoveredTile.IsPlaceable ? TileHighlightColor.Blue : TileHighlightColor.Red;
+        protected override TileHighlightColor GetTileHighlightColor() => Manager.hoveredTile.IsPlaceable ? TileHighlightColor.Blue : TileHighlightColor.Red;
     }
 }

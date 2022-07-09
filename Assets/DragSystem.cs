@@ -6,7 +6,7 @@ public class DragSystem : MonoBehaviour
 {
     [SerializeField] private bool isDragging;
     [SerializeField] private Vector3 initialPosition;
-    [SerializeField] private GameObject draggedGameObject;
+    [SerializeField] public GameObject draggedGameObject;
     private IDraggable _draggable;
     private int _initialLayer;
 
@@ -14,9 +14,12 @@ public class DragSystem : MonoBehaviour
     private Plane _plane = new Plane(Vector3.up, 0);
 
     private UIHandler _uiHandler;
+    private UINotificator _notificator;
+    
     public void Awake()
     {
         _uiHandler = GetComponent<UIHandler>();
+        _notificator = GetComponent<UINotificator>();
     }
 
     public void Update()
@@ -59,6 +62,7 @@ public class DragSystem : MonoBehaviour
         _initialLayer = target.layer;
         target.layer = 2; // Ignore layer. Add something to replace magic number?
 
+        _notificator.Notify(UIEventType.DragStart);
         UpdateTargetPosition();
     }
     private static GameObject GetGameobjectUnderMouse()
@@ -83,5 +87,6 @@ public class DragSystem : MonoBehaviour
         draggedGameObject = null;
 
         _draggable.OnDragStop(target);
+        _notificator.Notify(UIEventType.DragEnd);
     }
 }

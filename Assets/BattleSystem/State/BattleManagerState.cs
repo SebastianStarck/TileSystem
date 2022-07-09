@@ -20,13 +20,13 @@ namespace BattleSystem.State
 
         internal virtual void OnTileMouseExit(Tile tile)
         {
-            Manager.HoveredTile = null;
+            Manager.hoveredTile = null;
             tile.DisableHighlight();
         }
 
         internal virtual void OnTileMouseEnter(Tile tile)
         {
-            Manager.HoveredTile = tile;
+            Manager.hoveredTile = tile;
 
             if (tile == null) return;
 

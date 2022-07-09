@@ -12,7 +12,7 @@ namespace BattleSystem.State
         internal override void OnStateEnter()
         {
             Manager.EmitUIEvent(UIEventType.Clear);
-            OnTileMouseEnter(Manager.HoveredTile);
+            OnTileMouseEnter(Manager.hoveredTile);
         }
 
         internal override void OnUIEvent(UIEventType ev)
@@ -34,6 +34,10 @@ namespace BattleSystem.State
                 case UIEventType.Restore:
                     Manager.RestoreUnits();
                     break;
+
+                case UIEventType.DragStart:
+                    Manager.State = new DragUnitState(Manager);
+                    break;
             }
         }
 
@@ -50,6 +54,6 @@ namespace BattleSystem.State
             Manager.ClearActiveTiles();
         }
 
-        protected override TileHighlightColor GetTileHighlightColor() => Manager.HoveredTile.IsPlaceable ? TileHighlightColor.Green : TileHighlightColor.Blue;
+        protected override TileHighlightColor GetTileHighlightColor() => Manager.hoveredTile.IsPlaceable ? TileHighlightColor.Green : TileHighlightColor.Blue;
     }
 }
